@@ -28,7 +28,7 @@ var getElementsByClassName = function(className) {
   // //return array
 
   // call that function
-  console.log(element.childNodes);
+  // console.log(element.childNodes);
   getClass(element);
 
   return classNames;

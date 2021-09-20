@@ -19,9 +19,8 @@ var stringifyJSON = function(obj) {
   if (typeof(obj) === 'string') {
     return '"' + obj + '"';
   }
-
+  // If Obj is Array
   if (Array.isArray(obj)) { // [8],
-    // If Obj is Array
     // Start Accumulator
     // If length !== 1 += stringify.obj + , + space
     // If length === 1 end add bracket ]
@@ -34,19 +33,32 @@ var stringifyJSON = function(obj) {
       } else {
         resultArray += stringifyJSON(currentElement);
       }
-    //   resultArray += stringifyJSON(currentElement);
-    //   resultArray += ', ';
     }
     resultArray += ']';
     return resultArray;
-    // if (obj.length > 1) {
-    //   resultArray += ', ';
-    // } else {
-    //   resultArray += ']';
-    // }
   }
-  // resultArray.slice(0, resultArray.length - 1) + ']';
-  // return resultArray;
+
+  // If obj is Object
+  if (typeof(obj) === 'object') { //{'a': 'apple'},
+    var resultObj = '{';
+    for (var key in obj) {
+      // If key is defined and not a function
+      if ((typeof(obj[key]) !== 'undefined') && (typeof(obj[key]) !== 'function')) {
+        resultObj += '"' + key + '"' + ':';
+        var value = stringifyJSON(obj[key]);
+        resultObj += value + ',';
+      } else {
+        continue;
+      }
+    }
+
+    if (resultObj.length > 2) {
+      resultObj = resultObj.slice(0, resultObj.length - 1);
+    }
+    resultObj += '}';
+  }
+
+  return resultObj;
 };
 
 
